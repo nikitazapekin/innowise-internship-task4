@@ -29,7 +29,7 @@ jobs:
         run: yarn lint
       
       - name: Build production
-        run: yarn build:prod
+        run: yarn build
 
   deploy-on-merge:
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true

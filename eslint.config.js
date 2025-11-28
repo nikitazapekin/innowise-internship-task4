@@ -73,7 +73,7 @@ export default [
       parser: tsParser,
       parserOptions: {
         ecmaFeatures: { jsx: true },
-        project: true,
+        projectService: true,
         tsconfigRootDir: process.cwd(),
       },
     },

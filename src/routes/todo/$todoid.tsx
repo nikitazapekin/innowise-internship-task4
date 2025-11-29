@@ -5,7 +5,7 @@ type PageParams = {
 };
 
 async function getToDoId(id: string): Promise<{ title: string }> {
-  const data = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+  const data = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`);
 
   return data.json();
 }
@@ -16,7 +16,8 @@ export const Route = createFileRoute("/todo/$todoid")({
   errorComponent: ({ error }) => <div>{error.message}</div>,
   validateSearch: (search: Record<string, unknown>): PageParams => {
     return {
-      page: Number(search?.page ?? 1),
+      //  page: Number(search?.page ?? 1),
+      page: 1,
     };
   },
 });

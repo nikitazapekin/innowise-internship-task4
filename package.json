@@ -10,7 +10,7 @@
     "format": "prettier --write . && eslint --fix .",
     "lint": "eslint src/ --max-warnings 0 --no-error-on-unmatched-pattern",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix --no-cache",
-    "vercel-build": "yarn run build",
+    "vercel-build": "vite build --outDir dist", 
     "prepare": "husky"
   },
   "dependencies": {

@@ -24,7 +24,9 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "lint-staged": "^16.2.7",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "vite-plugin-glsl": "^1.5.5",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",

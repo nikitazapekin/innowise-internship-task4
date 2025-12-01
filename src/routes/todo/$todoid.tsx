@@ -6,20 +6,31 @@ async function getToDoId(id: string): Promise<{ title: string }> {
   return data.json();
 }
 
+export type TodoDetailSearch = {
+  page?: number;
+};
+
 export const Route = createFileRoute("/todo/$todoid")({
   component: RouteComponent,
   loader: ({ params }) => getToDoId(params.todoid),
   errorComponent: ({ error }) => <div>{error.message}</div>,
+
+  validateSearch: (search: Record<string, unknown>): TodoDetailSearch => {
+    return {
+      page: search.page ? Number(search.page) : undefined,
+    };
+  },
 });
 
 function RouteComponent() {
   const { todoid } = Route.useParams();
-
   const data = Route.useLoaderData();
+  const search = Route.useSearch();
 
   return (
     <div>
       Hello "/todo/todoid"! {todoid}.... {JSON.stringify(data)}
+      {search.page && <div>Page: {search.page}</div>}
     </div>
   );
 }

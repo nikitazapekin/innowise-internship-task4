@@ -1,37 +1,33 @@
 {
-    "compilerOptions": {
-   "outDir": "./dist/",
-    "noImplicitAny": true,
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
-    "target": "es5",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+     
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "isolatedModules": true,
-    "baseUrl": ".",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    
+  
+    "baseUrl": "./",
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@constants/*": ["./src/constants/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@store/*": ["./src/store/*"],
-      "@api/*": ["./src/api/*"],
-      "@constants": ["./src/constants"],
-      "@styles/*": ["src/styles/*"],
-      "@styles": ["src/styles"],
-      "@types/*": ["src/types/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@errors/*": ["src/errors/*"],
-      "@mocks/*": ["./src/mocks/*"],
-      "@mocks": ["./src/mocks"]
+      "components/*": ["./src/components/*"],
+      "types/*": ["./src/types/*"],
+      "utils/*": ["./src/utils/*"],
+      
+      "assets/*": ["./src/assets/*"]
     }
-    }, 
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

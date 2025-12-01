@@ -9,7 +9,6 @@ function RouteComponent() {
     <div>
       TodoIndex!
       <Link to="/todo/$todoid" params={{ todoid: "1" }} search={{ page: 1 }}>
-        {" "}
         id
       </Link>
     </div>

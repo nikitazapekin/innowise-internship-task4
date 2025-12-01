@@ -9,6 +9,7 @@ export const emotionTheme: Theme = {
     main: "#1976d2",
     light: "#42a5f5",
     dark: "#1565c0",
+    white: "#fff",
   },
   fontFamilies: {
     primary: '"Inter", sans-serif',
@@ -62,7 +63,6 @@ export const themeUtils = {
     lg: `max-width: ${emotionTheme.containers.lg}px`,
   },
 };
-
 export const globalStyles = {
   global: (theme: Theme) => `
     * {
@@ -72,16 +72,15 @@ export const globalStyles = {
     }
     
     html {
-      font-size: 16px;
+      font-size: ${theme.fontSizes.xs};
       font-family: ${theme.fontFamilies.primary};
-      line-height: 1.5;
+     
     }
     
     body {
       color: ${theme.colors.dark};
-      background-color: #ffffff;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      background-color: ${theme.colors.white};
+     
     }
     
     h1, h2, h3, h4, h5, h6 {
@@ -113,10 +112,7 @@ export const globalStyles = {
     }
 
     
-    code, pre {
-      font-family: ${theme.fontFamilies.monospace};
-    }
-    
+ 
     a {
       color: ${theme.colors.primary};
       text-decoration: none;
@@ -133,6 +129,22 @@ export const globalStyles = {
       margin: 0 auto;
       padding: 0 20px;
     }
+    
+    
+    .wrapper {
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      
+    }
+    
+    .content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+    }
+     
   `,
 
   mixins: {

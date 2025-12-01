@@ -1,15 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+
+import Homepage from "../pages/Homepage";
 
 export const Route = createFileRoute("/")({
-  component: RouteComponent,
+  component: Homepage,
 });
-
-function RouteComponent() {
-  return (
-    <div>
-      Hello "/"!
-      <Link to="/about">About</Link>
-      <Link to="/todo">About</Link>
-    </div>
-  );
-}

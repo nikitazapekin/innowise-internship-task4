@@ -1,13 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Global, ThemeProvider } from "@emotion/react";
+import { css, Global, ThemeProvider } from "@emotion/react";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
 import { resetStyles } from "./styles/reset-styles";
+import { emotionTheme, globalStyles } from "./styles/theme";
 import { routeTree } from "./routeTree.gen";
-import theme from "./theme";
-
-import "./index.css";
 
 const router = createRouter({ routeTree });
 
@@ -19,8 +17,13 @@ declare module "@tanstack/react-router" {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={emotionTheme}>
       <Global styles={resetStyles} />
+      <Global
+        styles={css`
+          ${globalStyles.global(emotionTheme)}
+        `}
+      />
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>

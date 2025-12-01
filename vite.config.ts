@@ -5,13 +5,12 @@ import { defineConfig } from "vite";
 import glsl from "vite-plugin-glsl";
 
 const root = resolve(__dirname, "src");
-const outDir = resolve(__dirname, "public");
 
 export default defineConfig({
   plugins: [react(), TanStackRouterVite(), glsl()],
 
   build: {
-    outDir: outDir,
+    outDir: resolve(__dirname, "public"),
   },
 
   resolve: {
@@ -19,7 +18,6 @@ export default defineConfig({
       components: resolve(root, "components"),
       types: resolve(root, "types"),
       utils: resolve(root, "utils"),
-
       assets: resolve(root, "assets"),
     },
   },

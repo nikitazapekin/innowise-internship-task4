@@ -1,8 +1,10 @@
-import type { FormEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Layout from "components/Layout";
+import SearchUsers from "components/SearchUsers";
+import UserCard from "components/UserCard";
 import { API_CONFIG, PER_PAGE_OPTIONS } from "constants/index";
 import { createApiClient } from "helpers/createApiClient";
 import { themeUtils } from "styles/theme";
@@ -75,13 +77,15 @@ const Users = () => {
   const allUsers = data?.pages.flatMap((page) => page.users) || [];
   const totalCount = data?.pages[0]?.total || 0;
 
-  const handleSearch = (e: FormEvent) => {
-    e.preventDefault();
-    refetch();
+  const handleChangeQuery = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    console.log(value);
+    setSearchQuery(value);
   };
 
-  const handleClearSearch = () => {
-    setSearchQuery("");
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
     refetch();
   };
 
@@ -101,23 +105,11 @@ const Users = () => {
       <ContentSection>
         <Container>
           <ControlsPanel>
-            <SearchForm onSubmit={handleSearch}>
-              <SearchInput
-                type="text"
-                placeholder="Поиск пользователей GitHub..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <SearchButton type="submit" disabled={isPending}>
-                {isPending ? "Поиск..." : "Поиск"}
-              </SearchButton>
-              {searchQuery && (
-                <ClearButton type="button" onClick={handleClearSearch}>
-                  Сброс
-                </ClearButton>
-              )}
-            </SearchForm>
-
+            <SearchUsers
+              searchQuery={searchQuery}
+              handleChangeQuery={handleChangeQuery}
+              handleSearch={handleSearch}
+            />
             <PerPageSelector>
               <PerPageLabel>Пользователей на странице:</PerPageLabel>
               <PerPageOptions>
@@ -162,14 +154,7 @@ const Users = () => {
                 <>
                   <UsersGrid>
                     {allUsers.map((user) => (
-                      <UserCard key={user.id} href={user.html_url}>
-                        <UserAvatar src={user.avatar_url} alt={user.login} loading="lazy" />
-                        <UserInfo>
-                          <UserName>{user.login}</UserName>
-                          <UserType>Тип: {user.type}</UserType>
-                          {user.site_admin && <AdminBadge>Admin</AdminBadge>}
-                        </UserInfo>
-                      </UserCard>
+                      <UserCard user={user} key={user.id} />
                     ))}
                   </UsersGrid>
 
@@ -209,55 +194,18 @@ const Container = styled.div`
   max-width: ${(props) => props.theme.containers.lg}px;
   margin: 0 auto;
   padding: 0 ${(props) => props.theme.spaces.md}px;
-
-  ${themeUtils.mediaQueries.tablet} {
-    padding: 0 ${(props) => props.theme.spaces.lg}px;
-  }
 `;
 
 const ControlsPanel = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin-bottom: ${(props) => props.theme.spaces.sm}px;
   padding: ${(props) => props.theme.spaces.lg}px;
   background: ${(props) => props.theme.colors.white};
   border-radius: 16px;
-
+  align-items: center;
+  justify-content: space-between;
   backdrop-filter: blur(10px);
-
-  ${themeUtils.mediaQueries.tabletUp} {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-`;
-
-const SearchForm = styled.form`
-  display: flex;
-  gap: ${(props) => props.theme.spaces.sm}px;
-  flex: 1;
-  max-width: 600px;
-`;
-
-const SearchInput = styled.input`
-  flex: 1;
-  padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
-  border: 1px solid ${(props) => props.theme.colors.black};
-  border-radius: 12px;
-  font-size: ${(props) => props.theme.fontSizes.xs}px;
-  font-family: ${(props) => props.theme.fontFamilies.primary};
-  transition: all 0.3s ease;
-  background: ${(props) => props.theme.colors.white};
-
-  &:focus {
-    outline: none;
-    border-color: ${(props) => props.theme.colors.main};
-    box-shadow: 0 0 0 1px ${(props) => props.theme.colors.main};
-  }
-
-  &::placeholder {
-    color: ${(props) => props.theme.colors.secondary};
-  }
 `;
 
 const BaseButton = styled.button`
@@ -278,55 +226,12 @@ const BaseButton = styled.button`
     opacity: 0.6;
     cursor: not-allowed;
   }
-
-  &:hover:not(:disabled) {
-    transform: translateY(-1px);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-  }
-`;
-
-const SearchButton = styled(BaseButton)`
-  background: linear-gradient(
-    135deg,
-    ${(props) => props.theme.colors.main},
-    ${(props) => props.theme.colors.main}
-  );
-  color: ${(props) => props.theme.colors.white};
-  min-width: 100px;
-
-  &:hover:not(:disabled) {
-    background: linear-gradient(
-      135deg,
-      ${(props) => props.theme.colors.dark},
-      ${(props) => props.theme.colors.main}
-    );
-    box-shadow: 0 4px 12px ${(props) => props.theme.colors.main};
-  }
-`;
-
-const ClearButton = styled(BaseButton)`
-  background: ${(props) => props.theme.colors.secondary};
-  color: ${(props) => props.theme.colors.secondary};
-  border: 1px solid ${(props) => props.theme.colors.secondary};
-
-  &:hover:not(:disabled) {
-    background: ${(props) => props.theme.colors.secondary};
-    box-shadow: 0 4px 12px ${(props) => props.theme.colors.secondary};
-  }
 `;
 
 const PerPageSelector = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${(props) => props.theme.spaces.sm}px;
-
-  ${themeUtils.mediaQueries.tabletUp} {
-    flex-direction: row;
-    align-items: center;
-  }
 `;
 
 const PerPageLabel = styled.span`
@@ -454,95 +359,6 @@ const UsersGrid = styled.div`
   }
 `;
 
-const UserCard = styled.a`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: ${(props) => props.theme.spaces.lg}px;
-  background: ${(props) => props.theme.colors.white};
-  border-radius: 16px;
-  border: 1px solid ${(props) => props.theme.colors.light};
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(
-      90deg,
-      ${(props) => props.theme.colors.main},
-      ${(props) => props.theme.colors.light}
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px ${(props) => props.theme.colors.light};
-    border-color: ${(props) => props.theme.colors.main}50;
-
-    &::before {
-      opacity: 1;
-    }
-  }
-`;
-
-const UserAvatar = styled.img`
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-bottom: ${(props) => props.theme.spaces.md}px;
-  border: 4px solid ${(props) => props.theme.colors.light};
-  object-fit: cover;
-  transition: transform 0.3s ease;
-`;
-
-const UserInfo = styled.div`
-  text-align: center;
-  width: 100%;
-`;
-
-const UserName = styled.h3`
-  font-family: ${(props) => props.theme.fontFamilies.secondary};
-  font-size: ${(props) => props.theme.fontSizes.sm}px;
-  color: ${(props) => props.theme.colors.primary};
-  margin: 0 0 ${(props) => props.theme.spaces.xxs}px 0;
-  font-weight: 700;
-  line-height: 1.3;
-`;
-
-const UserType = styled.p`
-  font-size: ${(props) => props.theme.fontSizes.xxs}px;
-  color: ${(props) => props.theme.colors.secondary};
-  margin: 0 0 ${(props) => props.theme.spaces.xxs}px 0;
-  font-weight: 500;
-`;
-
-const AdminBadge = styled.span`
-  display: inline-block;
-  padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
-  background: linear-gradient(
-    135deg,
-    ${(props) => props.theme.colors.success}20,
-    ${(props) => props.theme.colors.success}10
-  );
-  color: ${(props) => props.theme.colors.success};
-  border-radius: 20px;
-  font-size: ${(props) => props.theme.fontSizes.xxs}px;
-  font-weight: 700;
-  border: 1px solid ${(props) => props.theme.colors.success};
-  margin-top: ${(props) => props.theme.spaces.xxs}px;
-`;
-
 const LoadMoreWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -556,7 +372,7 @@ const LoadMoreButton = styled(BaseButton)`
     ${(props) => props.theme.colors.main}
   );
   color: ${(props) => props.theme.colors.white};
-  padding: ${(props) => props.theme.spaces.md}px ${(props) => props.theme.spaces.xl}px;
+  padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.md}px;
   font-size: ${(props) => props.theme.fontSizes.sm}px;
   min-width: 200px;
 `;

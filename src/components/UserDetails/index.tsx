@@ -12,24 +12,22 @@ interface GitHubUser {
   };
 }
 
-const UserCard = ({ user }: GitHubUser) => {
+const UserDetails = ({ user }: GitHubUser) => {
   return (
     <Link to="/users/$username" params={{ username: user.login }}>
-      <User>
+      <Wrapper key={user.id}>
         <UserAvatar src={user.avatar_url} alt={user.login} loading="lazy" />
         <UserInfo>
           <UserName>{user.login}</UserName>
           <UserType>Тип: {user.type}</UserType>
           {user.site_admin && <AdminBadge>Admin</AdminBadge>}
         </UserInfo>
-      </User>
+      </Wrapper>
     </Link>
   );
 };
 
-export default UserCard;
-
-const User = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,3 +115,5 @@ const AdminBadge = styled.span`
   border: 1px solid ${(props) => props.theme.colors.success};
   margin-top: ${(props) => props.theme.spaces.xxs}px;
 `;
+
+export default UserDetails;

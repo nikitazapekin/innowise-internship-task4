@@ -2,12 +2,13 @@ import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import Error from "components/Error";
 import Layout from "components/Layout";
+import Loading from "components/Loading";
 import SearchUsers from "components/SearchUsers";
 import UserCard from "components/UserCard";
 import { API_CONFIG, PER_PAGE_OPTIONS } from "constants/index";
 import { createApiClient } from "helpers/createApiClient";
-import { themeUtils } from "styles/theme";
 
 interface GitHubUser {
   id: number;
@@ -64,7 +65,7 @@ const Users = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
-    error,
+
     refetch,
     isPending,
   } = useInfiniteQuery({
@@ -126,26 +127,16 @@ const Users = () => {
             </PerPageSelector>
           </ControlsPanel>
 
-          {isPending && (
-            <LoadingState>
-              <Spinner />
-              <LoadingText>Загрузка пользователей...</LoadingText>
-            </LoadingState>
-          )}
+          {isPending && <Loading text="Загрузка пользователей..." />}
 
-          {status === "error" && (
-            <ErrorState>
-              <ErrorMessage>Ошибка: {(error as Error).message}</ErrorMessage>
-              <RetryButton onClick={() => refetch()}>Попробовать снова</RetryButton>
-            </ErrorState>
-          )}
+          {status === "error" && <Error text="Что-то пошло не так..." />}
 
           {status === "success" && (
             <>
               <ResultsInfo>
                 <ResultsCount>
                   {searchQuery
-                    ? `Найдено: ${totalCount} | Загружено: ${allUsers.length}`
+                    ? `Найдено: ${totalCount}  Загружено: ${allUsers.length}`
                     : `Загружено: ${allUsers.length}`}
                 </ResultsCount>
               </ResultsInfo>
@@ -186,7 +177,6 @@ const Users = () => {
 };
 
 const ContentSection = styled.section`
-  padding: ${(props) => props.theme.spaces.xl}px 0;
   background-color: ${(props) => props.theme.colors.white};
 `;
 
@@ -270,66 +260,6 @@ const PerPageOption = styled.button<PerPageOptionProps>`
   }
 `;
 
-const LoadingState = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: ${(props) => props.theme.spaces.xxxl}px;
-  gap: ${(props) => props.theme.spaces.lg}px;
-`;
-
-const Spinner = styled.div`
-  width: 60px;
-  height: 60px;
-  border: 4px solid ${(props) => props.theme.colors.light};
-  border-top: 4px solid ${(props) => props.theme.colors.main};
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
-const LoadingText = styled.p`
-  font-size: ${(props) => props.theme.fontSizes.xs}px;
-  color: ${(props) => props.theme.colors.secondary};
-  font-weight: 500;
-`;
-
-const ErrorState = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: ${(props) => props.theme.spaces.xxxl}px;
-  gap: ${(props) => props.theme.spaces.lg}px;
-  text-align: center;
-`;
-
-const ErrorMessage = styled.p`
-  font-size: ${(props) => props.theme.fontSizes.xs}px;
-  color: ${(props) => props.theme.colors.danger};
-  font-weight: 500;
-  max-width: 600px;
-`;
-
-const RetryButton = styled(BaseButton)`
-  background: linear-gradient(
-    135deg,
-    ${(props) => props.theme.colors.danger},
-    ${(props) => props.theme.colors.danger}
-  );
-  color: ${(props) => props.theme.colors.white};
-  padding: ${(props) => props.theme.spaces.sm}px ${(props) => props.theme.spaces.lg}px;
-`;
-
 const ResultsInfo = styled.div`
   margin-bottom: ${(props) => props.theme.spaces.xl}px;
   padding: ${(props) => props.theme.spaces.md}px;
@@ -349,14 +279,6 @@ const UsersGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: ${(props) => props.theme.spaces.sm}px;
-
-  ${themeUtils.mediaQueries.mobile} {
-    grid-template-columns: 1fr;
-  }
-
-  ${themeUtils.mediaQueries.tablet} {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
 `;
 
 const LoadMoreWrapper = styled.div`

@@ -22,15 +22,15 @@ const AboutPage = () => {
 
             <FeaturesList>
               <FeatureItem>
-                -<Strong> REST API</Strong> - классический подход к созданию веб-сервисов
+                <Strong> REST API</Strong> - классический подход к созданию веб-сервисов
               </FeatureItem>
               <FeatureItem>
-                - <Strong>GraphQL</Strong> - современный язык запросов для API с гибким получением
+                <Strong>GraphQL</Strong> - современный язык запросов для API с гибким получением
                 данных
               </FeatureItem>
               <FeatureItem>
-                - <Strong>WebSockets</Strong> - технология для двустороннего обмена данными в
-                реальном времени
+                <Strong>WebSockets</Strong> - технология для двустороннего обмена данными в реальном
+                времени
               </FeatureItem>
             </FeaturesList>
           </HeroContent>

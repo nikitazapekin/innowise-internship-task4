@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import Layout from "components/Layout";
-
-import { themeUtils } from "../../styles/theme";
+import { themeUtils } from "styles/theme";
 
 const Homepage = () => {
   return (

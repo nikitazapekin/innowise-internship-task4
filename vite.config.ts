@@ -18,7 +18,9 @@ export default defineConfig({
       components: resolve(root, "components"),
       types: resolve(root, "types"),
       utils: resolve(root, "utils"),
+      styles: resolve(root, "styles"),
       assets: resolve(root, "assets"),
+      pages: resolve(root, "pages"),
     },
   },
 });

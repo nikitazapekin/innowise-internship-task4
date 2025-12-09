@@ -10,7 +10,7 @@
     "format": "prettier --write . && eslint --fix .",
     "lint": "eslint src/ --max-warnings 0 --no-error-on-unmatched-pattern",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix --no-cache",
-    "vercel-build": "vite build --outDir dist", 
+    "vercel-build": "vite build --outDir dist",
     "prepare": "husky"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "lint-staged": "^16.2.7",
+    "lucide-react": "^0.556.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "vite-plugin-glsl": "^1.5.5",

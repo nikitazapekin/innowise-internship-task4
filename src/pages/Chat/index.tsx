@@ -1,5 +1,5 @@
 import type { KeyboardEvent } from "react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import Layout from "components/Layout";
 import Message from "components/Message";
@@ -18,6 +18,17 @@ const Chat = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const socketRef = useRef<WebSocket | null>(null);
   const messageIdRef = useRef<number>(1);
+
+  const addMessage = useCallback((text: string, type: "sent" | "received") => {
+    const newMessage: WebSocketMessage = {
+      id: messageIdRef.current++,
+      text,
+      timestamp: new Date().toLocaleTimeString(),
+      type,
+    };
+
+    setMessages((prev) => [...prev, newMessage]);
+  }, []);
 
   const connectWebSocket = useCallback(() => {
     try {
@@ -61,7 +72,7 @@ const Chat = () => {
       setIsConnected(false);
       addMessage(`Не удалось подключиться: ${error}`, "received");
     }
-  }, []);
+  }, [addMessage]);
 
   const sendMessage = () => {
     if (!socketRef.current || socketRef.current.readyState !== WebSocket.OPEN) {
@@ -76,17 +87,6 @@ const Chat = () => {
       setInputValue("");
     }
   };
-
-  const addMessage = useCallback((text: string, type: "sent" | "received") => {
-    const newMessage: WebSocketMessage = {
-      id: messageIdRef.current++,
-      text,
-      timestamp: new Date().toLocaleTimeString(),
-      type,
-    };
-
-    setMessages((prev) => [...prev, newMessage]);
-  }, []);
 
   const disconnectWebSocket = () => {
     if (socketRef.current) {

@@ -22,7 +22,7 @@ const Header = () => {
               <NavLink to="/graphql">GraphQL</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink to="/websockets">WebSockets</NavLink>
+              <NavLink to="/chat">WebSockets</NavLink>
             </NavItem>
           </NavList>
         </Nav>

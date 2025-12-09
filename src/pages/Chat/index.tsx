@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import type { KeyboardEvent } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import Layout from "components/Layout";
 import Message from "components/Message";
@@ -18,8 +19,15 @@ const Chat = () => {
   const socketRef = useRef<WebSocket | null>(null);
   const messageIdRef = useRef<number>(1);
 
-  const connectWebSocket = () => {
+  const connectWebSocket = useCallback(() => {
     try {
+      if (
+        socketRef.current?.readyState === WebSocket.CONNECTING ||
+        socketRef.current?.readyState === WebSocket.OPEN
+      ) {
+        return;
+      }
+
       setConnectionStatus("Подключаемся...");
       setIsConnected(false);
 
@@ -44,7 +52,6 @@ const Chat = () => {
       socket.onclose = (event) => {
         setConnectionStatus("Отключено");
         setIsConnected(false);
-
         addMessage(`Соединение закрыто. Код: ${event.code}`, "received");
       };
 
@@ -54,7 +61,7 @@ const Chat = () => {
       setIsConnected(false);
       addMessage(`Не удалось подключиться: ${error}`, "received");
     }
-  };
+  }, []);
 
   const sendMessage = () => {
     if (!socketRef.current || socketRef.current.readyState !== WebSocket.OPEN) {
@@ -70,7 +77,7 @@ const Chat = () => {
     }
   };
 
-  const addMessage = (text: string, type: "sent" | "received") => {
+  const addMessage = useCallback((text: string, type: "sent" | "received") => {
     const newMessage: WebSocketMessage = {
       id: messageIdRef.current++,
       text,
@@ -79,7 +86,7 @@ const Chat = () => {
     };
 
     setMessages((prev) => [...prev, newMessage]);
-  };
+  }, []);
 
   const disconnectWebSocket = () => {
     if (socketRef.current) {
@@ -94,9 +101,9 @@ const Chat = () => {
     return () => {
       disconnectWebSocket();
     };
-  }, []);
+  }, [connectWebSocket]);
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       sendMessage();
     }
@@ -150,7 +157,6 @@ const Chat = () => {
     </Layout>
   );
 };
-
 const ChatContainer = styled.div`
   max-width: ${(props) => props.theme.containers.lg}px;
   width: 100%;

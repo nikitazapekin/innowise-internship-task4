@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as GraphqlRouteImport } from './routes/graphql'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TodoIndexRouteImport } from './routes/todo/index'
 import { Route as TodoTodoidRouteImport } from './routes/todo/$todoid'
 
+const GraphqlRoute = GraphqlRouteImport.update({
+  id: '/graphql',
+  path: '/graphql',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -38,12 +44,14 @@ const TodoTodoidRoute = TodoTodoidRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/graphql': typeof GraphqlRoute
   '/todo/$todoid': typeof TodoTodoidRoute
   '/todo': typeof TodoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/graphql': typeof GraphqlRoute
   '/todo/$todoid': typeof TodoTodoidRoute
   '/todo': typeof TodoIndexRoute
 }
@@ -51,26 +59,35 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/graphql': typeof GraphqlRoute
   '/todo/$todoid': typeof TodoTodoidRoute
   '/todo/': typeof TodoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/todo/$todoid' | '/todo'
+  fullPaths: '/' | '/about' | '/graphql' | '/todo/$todoid' | '/todo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/todo/$todoid' | '/todo'
-  id: '__root__' | '/' | '/about' | '/todo/$todoid' | '/todo/'
+  to: '/' | '/about' | '/graphql' | '/todo/$todoid' | '/todo'
+  id: '__root__' | '/' | '/about' | '/graphql' | '/todo/$todoid' | '/todo/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  GraphqlRoute: typeof GraphqlRoute
   TodoTodoidRoute: typeof TodoTodoidRoute
   TodoIndexRoute: typeof TodoIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/graphql': {
+      id: '/graphql'
+      path: '/graphql'
+      fullPath: '/graphql'
+      preLoaderRoute: typeof GraphqlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  GraphqlRoute: GraphqlRoute,
   TodoTodoidRoute: TodoTodoidRoute,
   TodoIndexRoute: TodoIndexRoute,
 }

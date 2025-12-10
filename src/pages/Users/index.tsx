@@ -1,4 +1,4 @@
-import type { ChangeEvent, FormEvent } from "react";
+import type { FormEvent } from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -78,10 +78,7 @@ const Users = () => {
   const allUsers = data?.pages.flatMap((page) => page.users) || [];
   const totalCount = data?.pages[0]?.total || 0;
 
-  const handleChangeQuery = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    console.log(value);
+  const handleChangeQuery = (value: string) => {
     setSearchQuery(value);
   };
 

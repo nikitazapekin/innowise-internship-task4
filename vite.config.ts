@@ -21,6 +21,7 @@ export default defineConfig({
       styles: resolve(root, "styles"),
       assets: resolve(root, "assets"),
       pages: resolve(root, "pages"),
+      queries: resolve(root, "queries"),
     },
   },
 });

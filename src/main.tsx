@@ -11,7 +11,7 @@ import { routeTree } from "./routeTree.gen";
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: "https://graphqlzero.almansi.me/api",
+    uri: "https://swapi-graphql.netlify.app/graphql",
   }),
   cache: new InMemoryCache(),
 });

@@ -1,21 +1,37 @@
-import type { ChangeEvent, FormEvent } from "react";
+import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import styled from "@emotion/styled";
 
 interface SearchUsersProps {
   handleSearch: (e: FormEvent) => void;
-  handleChangeQuery: (e: ChangeEvent<HTMLInputElement>) => void;
-
+  handleChangeQuery: (value: string) => void;
   searchQuery: string;
 }
 
-const SearchUsers = ({ handleChangeQuery, handleSearch, searchQuery }: SearchUsersProps) => {
+const SearchUsers = ({ handleChangeQuery, handleSearch }: SearchUsersProps) => {
+  const [query, setQuery] = useState("");
+  const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    setQuery(value);
+
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+    }
+
+    timeoutIdRef.current = setTimeout(() => {
+      handleChangeQuery(value);
+    }, 300);
+  };
+
   return (
     <SearchForm onSubmit={handleSearch}>
       <SearchInput
         type="text"
         placeholder="Поиск пользователей GitHub..."
-        value={searchQuery}
-        onChange={handleChangeQuery}
+        value={query}
+        onChange={handleInputChange}
       />
       <SearchButton type="submit">Поиск</SearchButton>
     </SearchForm>

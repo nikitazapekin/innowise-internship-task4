@@ -488,7 +488,6 @@ const DetailsContainer = styled.div`
   padding: ${(props) => props.theme.spaces.md}px;
   border: 2px solid ${(props) => props.theme.colors.light};
   border-radius: 8px;
-  background: ${(props) => props.theme.colors.light};
 `;
 
 const LoadingMessage = styled.div`

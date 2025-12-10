@@ -22,6 +22,8 @@
     "baseUrl": "./",
     "paths": {
       "components/*": ["./src/components/*"],
+      "constants/*": ["./src/constants/*"],
+      "helpers/*": ["./src/helpers/*"],
       "types/*": ["./src/types/*"],
       "utils/*": ["./src/utils/*"],
       "styles/*": ["./src/styles/*"],
@@ -29,6 +31,6 @@
       "pages/*": ["./src/pages/*"],
     }
   },
-  "include": ["src"],
+  "include": ["src", "vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

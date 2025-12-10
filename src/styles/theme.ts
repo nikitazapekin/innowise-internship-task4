@@ -10,6 +10,7 @@ export const emotionTheme: Theme = {
     light: "#42a5f5",
     dark: "#1565c0",
     white: "#fff",
+    black: "#000",
   },
   fontFamilies: {
     primary: '"Inter", sans-serif',

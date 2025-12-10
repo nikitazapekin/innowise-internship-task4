@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { css, Global, ThemeProvider } from "@emotion/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
 import { resetStyles } from "./styles/reset-styles";
@@ -8,6 +9,7 @@ import { emotionTheme, globalStyles } from "./styles/theme";
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({ routeTree });
+const queryClient = new QueryClient();
 
 declare module "@tanstack/react-router" {
   interface Register {
@@ -17,14 +19,16 @@ declare module "@tanstack/react-router" {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={emotionTheme}>
-      <Global styles={resetStyles} />
-      <Global
-        styles={css`
-          ${globalStyles.global(emotionTheme)}
-        `}
-      />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={emotionTheme}>
+        <Global styles={resetStyles} />
+        <Global
+          styles={css`
+            ${globalStyles.global(emotionTheme)}
+          `}
+        />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

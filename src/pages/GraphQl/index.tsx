@@ -488,7 +488,7 @@ const DetailsContainer = styled.div`
   padding: ${(props) => props.theme.spaces.md}px;
   border: 2px solid ${(props) => props.theme.colors.light};
   border-radius: 8px;
-  background: ${(props) => props.theme.colors.light}10;
+  background: ${(props) => props.theme.colors.light};
 `;
 
 const LoadingMessage = styled.div`
@@ -502,7 +502,7 @@ const ErrorMessage = styled.div`
   text-align: center;
   padding: ${(props) => props.theme.spaces.md}px;
   color: ${(props) => props.theme.colors.danger};
-  background: ${(props) => props.theme.colors.danger}10;
+  background: ${(props) => props.theme.colors.danger};
   border-radius: 8px;
   margin: ${(props) => props.theme.spaces.md}px 0;
   font-size: ${(props) => props.theme.fontSizes.sm}px;

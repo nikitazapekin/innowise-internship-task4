@@ -383,13 +383,12 @@ const SectionTitle = styled.h4`
 `;
 
 const OpeningCrawl = styled.div`
-  font-style: italic;
+  font-size: ${(props) => props.theme.fontSizes.sm}px;
   line-height: 1.6;
   padding: ${(props) => props.theme.spaces.sm}px;
-  background: ${(props) => props.theme.colors.light}20;
-  border-left: 4px solid ${(props) => props.theme.colors.primary};
+  background: ${(props) => props.theme.colors.light};
   border-radius: 4px;
-  white-space: pre-wrap;
+  color: ${(props) => props.theme.colors.primary};
 `;
 
 const TagsList = styled.div`
@@ -400,7 +399,7 @@ const TagsList = styled.div`
 
 const Tag = styled.span`
   background: ${(props) => props.theme.colors.light};
-  color: ${(props) => props.theme.colors.dark};
+  color: ${(props) => props.theme.colors.primary};
   padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
   border-radius: 4px;
   font-size: ${(props) => props.theme.fontSizes.xs}px;
@@ -414,7 +413,7 @@ const ItemsList = styled.div`
 
 const ListItem = styled.div`
   padding: ${(props) => props.theme.spaces.sm}px;
-  background: ${(props) => props.theme.colors.light}20;
+
   border-radius: 4px;
   font-size: ${(props) => props.theme.fontSizes.sm}px;
 `;

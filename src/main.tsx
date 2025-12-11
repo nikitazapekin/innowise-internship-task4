@@ -28,27 +28,18 @@ declare module "@tanstack/react-router" {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={emotionTheme}>
-        <Global styles={resetStyles} />
-        <Global
-          styles={css`
-            ${globalStyles.global(emotionTheme)}
-          `}
-        />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </QueryClientProvider>
     <ApolloProvider client={client}>
-      <ThemeProvider theme={emotionTheme}>
-        <Global styles={resetStyles} />
-        <Global
-          styles={css`
-            ${globalStyles.global(emotionTheme)}
-          `}
-        />
-        <RouterProvider router={router} />
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={emotionTheme}>
+          <Global styles={resetStyles} />
+          <Global
+            styles={css`
+              ${globalStyles.global(emotionTheme)}
+            `}
+          />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </QueryClientProvider>
     </ApolloProvider>
   </React.StrictMode>
 );

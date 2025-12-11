@@ -24,6 +24,9 @@ const Header = () => {
             <NavItem>
               <NavLink to="/chat">WebSockets</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink to="/users">REST API</NavLink>
+            </NavItem>
           </NavList>
         </Nav>
       </Container>

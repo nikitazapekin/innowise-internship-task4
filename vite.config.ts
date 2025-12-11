@@ -16,6 +16,8 @@ export default defineConfig({
   resolve: {
     alias: {
       components: resolve(root, "components"),
+      constants: resolve(root, "constants"),
+      helpers: resolve(root, "helpers"),
       types: resolve(root, "types"),
       utils: resolve(root, "utils"),
       styles: resolve(root, "styles"),

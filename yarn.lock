@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@apollo/client@^4.0.9":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-4.0.9.tgz#fdc0388f73a1640f3da30a8791e448b96ad0b49a"
-  integrity sha512-Lh2drMzFE9x5jVS8RKmlGL5SORkvpyUJIT+wTErxDUR2HpWePiBfhhcHHRSlZFiCR866ewCv4euTc4IDF0GWxw==
+"@apollo/client@^4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-4.0.10.tgz#63e89945bd959b3a77a8978f884549a93e54ae17"
+  integrity sha512-xls/1tQq8GjAwn/Zo2LbbwHek7Qn+GrVc6qYgxDknB5xqpa9Lu5+Yt8duRWCUzEAUnf7vh2p61Uvx+C26N4l7g==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     "@wry/caches" "^1.0.0"
@@ -980,6 +980,18 @@
   version "1.140.0"
   resolved "https://registry.yarnpkg.com/@tanstack/history/-/history-1.140.0.tgz#e7af2bd01e5872429bb3a37b3ffcac27427eb2c7"
   integrity sha512-u+/dChlWlT3kYa/RmFP+E7xY5EnzvKEKcvKk+XrgWMpBWExQIh3RQX/eUqhqwCXJPNc4jfm1Coj8umnm/hDgyA==
+
+"@tanstack/query-core@5.90.12":
+  version "5.90.12"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.90.12.tgz#e1f5f47e72ef7d0fc794325936921c700352515e"
+  integrity sha512-T1/8t5DhV/SisWjDnaiU2drl6ySvsHj1bHBCWNXd+/T+Hh1cf6JodyEYMd5sgwm+b/mETT4EV3H+zCVczCU5hg==
+
+"@tanstack/react-query@^5.90.12":
+  version "5.90.12"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.90.12.tgz#49536842eff6487a9e645a453fea2642d8f4f209"
+  integrity sha512-graRZspg7EoEaw0a8faiUASCyJrqjKPdqJ9EwuDRUF9mEYJ1YPczI9H+/agJ0mOJkPCJDk0lsz5QTrLZ/jQ2rg==
+  dependencies:
+    "@tanstack/query-core" "5.90.12"
 
 "@tanstack/react-router-devtools@^1.139.10":
   version "1.139.10"

@@ -30,6 +30,9 @@ jobs:
 
       - name: Run test
         run: yarn test:run
+
+      - name: Run e2e
+        run: yarn test:e2e
       
       - name: Build production
         run: yarn build

@@ -181,7 +181,13 @@ describe("SearchUsers", () => {
       results: 5,
       data: ["user1", "user2", "user3"],
     };
-    const mockHandleSearch = vi.fn().mockResolvedValue(mockApiResponse);
+
+    const mockHandleSearch = vi.fn().mockImplementation(async (e: FormEvent) => {
+      e.preventDefault();
+
+      return mockApiResponse;
+    });
+
     const mockHandleChangeQuery = vi.fn();
 
     renderWithTheme(
@@ -198,17 +204,18 @@ describe("SearchUsers", () => {
     fireEvent.change(input, { target: { value: "javascript" } });
 
     vi.advanceTimersByTime(300);
+
     expect(mockHandleChangeQuery).toHaveBeenCalledWith("javascript");
 
     fireEvent.click(searchButton);
 
     expect(mockHandleSearch).toHaveBeenCalledTimes(1);
 
-    const resultPromise = mockHandleSearch.mock.results[0].value;
-    const result = await resultPromise;
+    const result = await mockHandleSearch.mock.results[0].value;
 
     expect(result).toEqual(mockApiResponse);
     expect(result.success).toBe(true);
     expect(result.results).toBe(5);
+    expect(result.data).toEqual(["user1", "user2", "user3"]);
   });
 });

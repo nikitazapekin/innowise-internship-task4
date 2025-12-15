@@ -117,8 +117,6 @@ test.describe("Users Page", () => {
   });
 
   test("should search users and display results", async ({ page }) => {
-    await page.screenshot({ path: "before-search.png" });
-
     const searchInput = page
       .locator('input[type="text"]')
       .or(page.getByPlaceholder(/поиск/i))
@@ -135,8 +133,6 @@ test.describe("Users Page", () => {
     await searchButton.click();
 
     await page.waitForTimeout(3000);
-
-    await page.screenshot({ path: "after-search.png", fullPage: true });
 
     const resultsInfo = page
       .getByText(/найдено/i)
@@ -207,8 +203,6 @@ test.describe("Users Page", () => {
 
       await page.waitForTimeout(2000);
 
-      await page.screenshot({ path: "after-perpage-change.png" });
-
       const loadingText = page.getByText(/загрузка|loading/i);
       const hasLoading = await loadingText.isVisible({ timeout: 1000 }).catch(() => false);
 
@@ -253,8 +247,6 @@ test.describe("Users Page", () => {
     await searchButton.click();
 
     await page.waitForTimeout(3000);
-
-    await page.screenshot({ path: "empty-results.png" });
 
     const emptyMessage = page.getByText(/не найдены|отсутствуют|no users|not found/i);
 
@@ -363,6 +355,5 @@ test.describe("Keyboard navigation", () => {
     const currentValue = await searchInput.inputValue();
 
     expect(currentValue).not.toBe("testuser1");
-    await page.screenshot({ path: "after-escape.png" });
   });
 });

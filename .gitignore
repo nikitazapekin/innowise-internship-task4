@@ -29,7 +29,9 @@ cypress.env.json
 .serverless/
 /.vercel
 /.svelte-kit
-
+/playwright-report
+/test-results
+/playwright-report
 
 .idea/
 .vscode/

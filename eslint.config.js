@@ -16,7 +16,9 @@ export default [
       "**/out/**",
       "**/*.d.ts",
       "cypress.config.ts",
+      "playwright.config.ts",
       "**/cypress/**",
+      "e2e/**",
     ],
   },
 

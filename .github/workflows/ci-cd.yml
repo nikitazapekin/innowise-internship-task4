@@ -27,6 +27,9 @@ jobs:
         
       - name: Run lint
         run: yarn lint
+
+      - name: Run test
+        run: yarn test:run
       
       - name: Build production
         run: yarn build

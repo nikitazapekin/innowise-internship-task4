@@ -1,7 +1,6 @@
 import js from "@eslint/js";
 import tsEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-import jestPlugin from "eslint-plugin-jest";
 import reactPlugin from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
@@ -45,7 +44,6 @@ export default [
   {
     languageOptions: {
       globals: {
-        ...globals.jest,
         ...globals.browser,
         ...globals.es2021,
         ...globals.node,
@@ -53,17 +51,21 @@ export default [
     },
   },
   {
-    files: ["**/*.test.ts", "**/*.test.tsx"],
-    plugins: {
-      jest: jestPlugin,
-    },
+    files: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
     languageOptions: {
       globals: {
-        ...jestPlugin.environments.globals.globals,
+        vi: "readonly",
+        vitest: "readonly",
+        describe: "readonly",
+        it: "readonly",
+        test: "readonly",
+        expect: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        Mock: "readonly",
       },
-    },
-    rules: {
-      ...jestPlugin.configs.recommended.rules,
     },
   },
 

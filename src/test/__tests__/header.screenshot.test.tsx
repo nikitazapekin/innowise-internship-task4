@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ComponentProps, MouseEventHandler, ReactElement, ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { render, screen } from "@testing-library/react";
@@ -46,7 +46,16 @@ const mockTheme = {
 };
 
 vi.mock("@tanstack/react-router", () => ({
-  Link: ({ children, to, onClick, ...props }: any) => (
+  Link: ({
+    children,
+    to,
+    onClick,
+    ...props
+  }: {
+    children: ReactNode;
+    to: string;
+    onClick?: MouseEventHandler<HTMLAnchorElement>;
+  } & ComponentProps<"a">) => (
     <a href={to} onClick={onClick} {...props} data-testid={`link-${to.replace("/", "") || "home"}`}>
       {children}
     </a>

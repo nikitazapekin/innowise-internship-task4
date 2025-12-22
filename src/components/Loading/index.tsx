@@ -28,7 +28,6 @@ const Spinner = styled.div`
   border-top: 4px solid ${(props) => props.theme.colors.main};
   border-radius: 50%;
   animation: spin 1s linear infinite;
-
   @keyframes spin {
     0% {
       transform: rotate(0deg);

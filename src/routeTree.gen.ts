@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as GraphqlRouteImport } from './routes/graphql'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users/index'
 import { Route as UsersUsernameRouteImport } from './routes/users/$username'
 
+const GraphqlRoute = GraphqlRouteImport.update({
+  id: '/graphql',
+  path: '/graphql',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -38,12 +44,14 @@ const UsersUsernameRoute = UsersUsernameRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/graphql': typeof GraphqlRoute
   '/users/$username': typeof UsersUsernameRoute
   '/users': typeof UsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/graphql': typeof GraphqlRoute
   '/users/$username': typeof UsersUsernameRoute
   '/users': typeof UsersIndexRoute
 }
@@ -51,26 +59,35 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/graphql': typeof GraphqlRoute
   '/users/$username': typeof UsersUsernameRoute
   '/users/': typeof UsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/users/$username' | '/users'
+  fullPaths: '/' | '/about' | '/graphql' | '/users/$username' | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/users/$username' | '/users'
-  id: '__root__' | '/' | '/about' | '/users/$username' | '/users/'
+  to: '/' | '/about' | '/graphql' | '/users/$username' | '/users'
+  id: '__root__' | '/' | '/about' | '/graphql' | '/users/$username' | '/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  GraphqlRoute: typeof GraphqlRoute
   UsersUsernameRoute: typeof UsersUsernameRoute
   UsersIndexRoute: typeof UsersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/graphql': {
+      id: '/graphql'
+      path: '/graphql'
+      fullPath: '/graphql'
+      preLoaderRoute: typeof GraphqlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  GraphqlRoute: GraphqlRoute,
   UsersUsernameRoute: UsersUsernameRoute,
   UsersIndexRoute: UsersIndexRoute,
 }

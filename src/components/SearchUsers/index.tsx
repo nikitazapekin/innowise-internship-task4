@@ -1,5 +1,6 @@
 import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import styled from "@emotion/styled";
+import { themeUtils } from "styles/theme";
 
 interface SearchUsersProps {
   handleSearch: (e: FormEvent) => void;
@@ -38,6 +39,8 @@ const SearchUsers = ({ handleChangeQuery, handleSearch }: SearchUsersProps) => {
   );
 };
 
+const { tablet, smallLaptop } = themeUtils.mediaQueries;
+
 const BaseButton = styled.button`
   padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
   border: none;
@@ -66,6 +69,9 @@ const SearchButton = styled(BaseButton)`
   );
   color: ${(props) => props.theme.colors.white};
   min-width: 100px;
+  ${tablet} {
+    align-self: center;
+  }
 `;
 
 const SearchForm = styled.form`
@@ -74,6 +80,15 @@ const SearchForm = styled.form`
   flex: 1;
   max-width: 600px;
   align-self: flex-end;
+
+  ${smallLaptop} {
+    align-self: center;
+    max-width: 100%;
+    width: 100%;
+  }
+  ${tablet} {
+    flex-direction: column;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -94,6 +109,9 @@ const SearchInput = styled.input`
 
   &::placeholder {
     color: ${(props) => props.theme.colors.secondary};
+  }
+  ${tablet} {
+    min-width: 200px;
   }
 `;
 

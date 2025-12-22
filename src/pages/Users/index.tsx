@@ -9,6 +9,7 @@ import SearchUsers from "components/SearchUsers";
 import UserCard from "components/UserCard";
 import { API_CONFIG, PER_PAGE_OPTIONS } from "constants/index";
 import { createApiClient } from "helpers/createApiClient";
+import { themeUtils } from "styles/theme";
 
 interface GitHubUser {
   id: number;
@@ -173,6 +174,8 @@ const Users = () => {
   );
 };
 
+const { tablet, smallLaptop } = themeUtils.mediaQueries;
+
 const ContentSection = styled.section`
   background-color: ${(props) => props.theme.colors.white};
 `;
@@ -181,6 +184,10 @@ const Container = styled.div`
   max-width: ${(props) => props.theme.containers.lg}px;
   margin: 0 auto;
   padding: 0 ${(props) => props.theme.spaces.md}px;
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const ControlsPanel = styled.div`
@@ -193,6 +200,12 @@ const ControlsPanel = styled.div`
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(10px);
+  gap: 20px;
+
+  ${smallLaptop} {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const BaseButton = styled.button`
@@ -226,6 +239,9 @@ const PerPageLabel = styled.span`
   color: ${(props) => props.theme.colors.secondary};
   font-weight: 500;
   white-space: nowrap;
+  ${smallLaptop} {
+    text-align: center;
+  }
 `;
 
 const PerPageOptions = styled.div`

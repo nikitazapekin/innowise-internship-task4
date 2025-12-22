@@ -5,6 +5,7 @@ import Error from "components/Error";
 import Layout from "components/Layout";
 import Loading from "components/Loading";
 import { createApiClient } from "helpers/index";
+import { themeUtils } from "styles/theme";
 
 interface UserProps {
   username: string;
@@ -124,6 +125,7 @@ const User = ({ username }: UserProps) => {
     </Layout>
   );
 };
+const { smallLaptop, mobile } = themeUtils.mediaQueries;
 
 const HeroSection = styled.section`
   background: linear-gradient(
@@ -152,6 +154,12 @@ const UserProfile = styled.div`
   border-radius: 20px;
   padding: ${(props) => props.theme.spaces.xl}px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  ${smallLaptop} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
 `;
 
 const UserAvatar = styled.img`
@@ -173,6 +181,10 @@ const UserName = styled.h1`
   font-size: ${(props) => props.theme.fontSizes.lg + 8}px;
   color: ${(props) => props.theme.colors.primary};
   margin: 0;
+
+  ${smallLaptop} {
+    text-align: center;
+  }
 `;
 
 const UserLogin = styled.h2`
@@ -180,7 +192,10 @@ const UserLogin = styled.h2`
   font-size: ${(props) => props.theme.fontSizes.md}px;
   color: ${(props) => props.theme.colors.secondary};
   margin: 0;
-  font-weight: normal;
+
+  ${smallLaptop} {
+    text-align: center;
+  }
 `;
 
 const UserBio = styled.p`
@@ -194,6 +209,15 @@ const UserBio = styled.p`
 const UserStats = styled.div`
   display: flex;
   gap: ${(props) => props.theme.spaces.lg}px;
+
+  ${smallLaptop} {
+    justify-content: center;
+    gap: ${(props) => props.theme.spaces.sm}px;
+  }
+
+  ${mobile} {
+    flex-direction: column;
+  }
 `;
 
 const StatItem = styled.div`
@@ -267,6 +291,7 @@ const ProfileLink = styled.p`
     box-shadow 0.2s ease;
   align-self: flex-start;
   margin-top: ${(props) => props.theme.spaces.md}px;
+  text-align: center;
 
   &:hover {
     transform: translateY(-2px);

@@ -8,114 +8,125 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as GraphqlRouteImport } from './routes/graphql'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as UsersIndexRouteImport } from './routes/users/index'
-import { Route as UsersUsernameRouteImport } from './routes/users/$username'
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as ChatRouteImport } from "./routes/chat";
+import { Route as AboutRouteImport } from "./routes/about";
+import { Route as IndexRouteImport } from "./routes/index";
+import { Route as UsersIndexRouteImport } from "./routes/users/index";
+import { Route as UsersUsernameRouteImport } from "./routes/users/$username";
 
-const GraphqlRoute = GraphqlRouteImport.update({
-  id: '/graphql',
-  path: '/graphql',
+const ChatRoute = ChatRouteImport.update({
+  id: "/chat",
+  path: "/chat",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+  id: "/about",
+  path: "/about",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const UsersIndexRoute = UsersIndexRouteImport.update({
-  id: '/users/',
-  path: '/users/',
+  id: "/users/",
+  path: "/users/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const UsersUsernameRoute = UsersUsernameRouteImport.update({
-  id: '/users/$username',
-  path: '/users/$username',
+  id: "/users/$username",
+  path: "/users/$username",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/graphql': typeof GraphqlRoute
-  '/users/$username': typeof UsersUsernameRoute
-  '/users': typeof UsersIndexRoute
+  "/": typeof IndexRoute;
+  "/about": typeof AboutRoute;
+  "/chat": typeof ChatRoute;
+  "/todo/$todoid": typeof TodoTodoidRoute;
+  "/todo": typeof TodoIndexRoute;
+  "/users/$username": typeof UsersUsernameRoute;
+  "/users": typeof UsersIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/graphql': typeof GraphqlRoute
-  '/users/$username': typeof UsersUsernameRoute
-  '/users': typeof UsersIndexRoute
+  "/": typeof IndexRoute;
+  "/about": typeof AboutRoute;
+  "/users/$username": typeof UsersUsernameRoute;
+  "/users": typeof UsersIndexRoute;
+  "/chat": typeof ChatRoute;
+  "/todo/$todoid": typeof TodoTodoidRoute;
+  "/todo": typeof TodoIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/graphql': typeof GraphqlRoute
-  '/users/$username': typeof UsersUsernameRoute
-  '/users/': typeof UsersIndexRoute
+  __root__: typeof rootRouteImport;
+  "/": typeof IndexRoute;
+  "/about": typeof AboutRoute;
+  "/users/$username": typeof UsersUsernameRoute;
+  "/users/": typeof UsersIndexRoute;
+  "/chat": typeof ChatRoute;
+  "/todo/$todoid": typeof TodoTodoidRoute;
+  "/todo/": typeof TodoIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/graphql' | '/users/$username' | '/users'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/graphql' | '/users/$username' | '/users'
-  id: '__root__' | '/' | '/about' | '/graphql' | '/users/$username' | '/users/'
-  fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths: "/" | "/about" | "/users/$username" | "/users";
+  fullPaths: "/" | "/about" | "/chat" | "/todo/$todoid" | "/todo";
+  fileRoutesByTo: FileRoutesByTo;
+  to: "/" | "/about" | "/users/$username" | "/users";
+  id: "__root__" | "/" | "/about" | "/users/$username" | "/users/";
+  to: "/" | "/about" | "/chat" | "/todo/$todoid" | "/todo";
+  id: "__root__" | "/" | "/about" | "/chat" | "/todo/$todoid" | "/todo/";
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  GraphqlRoute: typeof GraphqlRoute
-  UsersUsernameRoute: typeof UsersUsernameRoute
-  UsersIndexRoute: typeof UsersIndexRoute
+  IndexRoute: typeof IndexRoute;
+  AboutRoute: typeof AboutRoute;
+  UsersUsernameRoute: typeof UsersUsernameRoute;
+  UsersIndexRoute: typeof UsersIndexRoute;
+  ChatRoute: typeof ChatRoute;
+  TodoTodoidRoute: typeof TodoTodoidRoute;
+  TodoIndexRoute: typeof TodoIndexRoute;
 }
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/graphql': {
-      id: '/graphql'
-      path: '/graphql'
-      fullPath: '/graphql'
-      preLoaderRoute: typeof GraphqlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/users/': {
-      id: '/users/'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof UsersIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/users/$username': {
-      id: '/users/$username'
-      path: '/users/$username'
-      fullPath: '/users/$username'
-      preLoaderRoute: typeof UsersUsernameRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+    "/chat": {
+      id: "/chat";
+      path: "/chat";
+      fullPath: "/chat";
+      preLoaderRoute: typeof ChatRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/about": {
+      id: "/about";
+      path: "/about";
+      fullPath: "/about";
+      preLoaderRoute: typeof AboutRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/users/": {
+      id: "/users/";
+      path: "/users";
+      fullPath: "/users";
+      preLoaderRoute: typeof UsersIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/users/$username": {
+      id: "/users/$username";
+      path: "/users/$username";
+      fullPath: "/users/$username";
+      preLoaderRoute: typeof UsersUsernameRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
@@ -125,7 +136,10 @@ const rootRouteChildren: RootRouteChildren = {
   GraphqlRoute: GraphqlRoute,
   UsersUsernameRoute: UsersUsernameRoute,
   UsersIndexRoute: UsersIndexRoute,
-}
+  ChatRoute: ChatRoute,
+  TodoTodoidRoute: TodoTodoidRoute,
+  TodoIndexRoute: TodoIndexRoute,
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

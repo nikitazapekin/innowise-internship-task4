@@ -14,7 +14,7 @@ interface WebSocketMessage {
 const Chat = () => {
   const [messages, setMessages] = useState<WebSocketMessage[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
-  const [connectionStatus, setConnectionStatus] = useState<string>("Отключено");
+  const [connectionStatus, setConnectionStatus] = useState<string>("Disconncred");
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const socketRef = useRef<WebSocket | null>(null);
   const messageIdRef = useRef<number>(1);
@@ -47,7 +47,7 @@ const Chat = () => {
       socket.onopen = () => {
         setConnectionStatus("Подключено");
         setIsConnected(true);
-        addMessage("Соединение установлено с сервером", "received");
+        addMessage("Cannot connect to server", "received");
       };
 
       socket.onmessage = (event) => {
@@ -55,28 +55,28 @@ const Chat = () => {
       };
 
       socket.onerror = () => {
-        setConnectionStatus("Ошибка соединения");
+        setConnectionStatus("Connection error");
         setIsConnected(false);
-        addMessage("Произошла ошибка соединения", "received");
+        addMessage("An error occured", "received");
       };
 
       socket.onclose = (event) => {
-        setConnectionStatus("Отключено");
+        setConnectionStatus("Disconected");
         setIsConnected(false);
-        addMessage(`Соединение закрыто. Код: ${event.code}`, "received");
+        addMessage(`Connection closed. Code: ${event.code}`, "received");
       };
 
       socketRef.current = socket;
     } catch (error) {
-      setConnectionStatus("Ошибка при подключении");
+      setConnectionStatus("Connection error");
       setIsConnected(false);
-      addMessage(`Не удалось подключиться: ${error}`, "received");
+      addMessage(`Cannot connect to the server: ${error}`, "received");
     }
   }, [addMessage]);
 
   const sendMessage = () => {
     if (!socketRef.current || socketRef.current.readyState !== WebSocket.OPEN) {
-      addMessage("Не подключено к серверу", "received");
+      addMessage("Cannot connect to the server", "received");
 
       return;
     }

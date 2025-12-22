@@ -1,18 +1,17 @@
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
-import { defineConfig } from "vite";
+import { mergeConfig } from "vite";
 import glsl from "vite-plugin-glsl";
+import { defineConfig } from "vitest/config";
 
 const root = resolve(__dirname, "src");
 
-export default defineConfig({
+const viteConfig = {
   plugins: [react(), TanStackRouterVite(), glsl()],
-
   build: {
     outDir: resolve(__dirname, "public"),
   },
-
   resolve: {
     alias: {
       components: resolve(root, "components"),
@@ -26,4 +25,15 @@ export default defineConfig({
       queries: resolve(root, "queries"),
     },
   },
-});
+};
+
+const testConfig = {
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.ts",
+    css: true,
+  },
+};
+
+export default defineConfig(mergeConfig(viteConfig, testConfig));

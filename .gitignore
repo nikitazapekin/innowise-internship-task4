@@ -29,7 +29,9 @@ cypress.env.json
 .serverless/
 /.vercel
 /.svelte-kit
-
+/playwright-report
+/test-results
+/playwright-report
 
 .idea/
 .vscode/
@@ -41,3 +43,10 @@ cypress.env.json
  
  
 .eslintignore
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

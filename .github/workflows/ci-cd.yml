@@ -20,13 +20,22 @@ jobs:
           cache: 'yarn'
           
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install  
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
 
       - name: Run code formatting
         run: yarn format
         
       - name: Run lint
         run: yarn lint
+
+      - name: Run test
+        run: yarn test:run
+
+      - name: Run e2e
+        run: yarn test:e2e
       
       - name: Build production
         run: yarn build

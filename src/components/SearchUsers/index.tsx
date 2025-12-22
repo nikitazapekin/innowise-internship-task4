@@ -34,6 +34,7 @@ const SearchUsers = ({ handleChangeQuery, handleSearch }: SearchUsersProps) => {
         value={query}
         onChange={handleInputChange}
       />
+
       <SearchButton type="submit">Поиск</SearchButton>
     </SearchForm>
   );

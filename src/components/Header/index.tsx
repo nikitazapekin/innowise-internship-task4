@@ -62,26 +62,33 @@ const Header = () => {
       </StyledHeader>
 
       <MobileNav $isOpen={isMenuOpen}>
+        <MobileNavHeader>
+          <MobileNavTitle>Меню</MobileNavTitle>
+          <CloseButton onClick={closeMenu} aria-label="Закрыть меню">
+            <CloseIcon>×</CloseIcon>
+          </CloseButton>
+        </MobileNavHeader>
+
         <MobileNavList>
           <NavItem>
-            <NavLink to="/about" activeOptions={{ exact: true }} onClick={closeMenu}>
+            <MobileNavLink to="/about" activeOptions={{ exact: true }} onClick={closeMenu}>
               About
-            </NavLink>
+            </MobileNavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/graphql" onClick={closeMenu}>
+            <MobileNavLink to="/graphql" onClick={closeMenu}>
               GraphQL
-            </NavLink>
+            </MobileNavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/chat" onClick={closeMenu}>
+            <MobileNavLink to="/chat" onClick={closeMenu}>
               WebSockets
-            </NavLink>
+            </MobileNavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/users" onClick={closeMenu}>
+            <MobileNavLink to="/users" onClick={closeMenu}>
               REST API
-            </NavLink>
+            </MobileNavLink>
           </NavItem>
         </MobileNavList>
       </MobileNav>
@@ -92,13 +99,14 @@ const Header = () => {
 };
 
 const { tablet } = themeUtils.mediaQueries;
+
 const StyledHeader = styled.header`
   background-color: ${(props) => props.theme.colors.primary};
   color: ${(props) => props.theme.colors.white};
   padding: ${(props) => props.theme.spaces.sm}px 0;
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
@@ -209,19 +217,64 @@ const MobileNav = styled.nav<{ $isOpen: boolean }>`
   display: none;
 
   ${tablet} {
-    display: block;
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
-    right: ${(props) => (props.$isOpen ? "0" : "-100%")};
-    width: 280px;
+    left: ${(props) => (props.$isOpen ? "0" : "-100%")};
+    width: 100%;
     height: 100vh;
     background-color: ${(props) => props.theme.colors.primary};
-    padding: 80px ${(props) => props.theme.spaces.sm}px ${(props) => props.theme.spaces.sm}px;
-    transition: right 0.4s ease;
-    z-index: 4;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    transition: left 0.4s ease;
+    z-index: 1001;
+    box-shadow: none;
     overflow-y: auto;
   }
+`;
+
+const MobileNavHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${(props) => props.theme.spaces.md}px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+const MobileNavTitle = styled.h2`
+  font-family: ${(props) => props.theme.fontFamilies.secondary};
+  font-size: ${(props) => props.theme.fontSizes.sm}px;
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.white};
+  margin: 0;
+`;
+
+const CloseButton = styled.button`
+  position: relative;
+  background: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus {
+    outline: 2px solid ${(props) => props.theme.colors.white};
+    outline-offset: 2px;
+  }
+`;
+
+const CloseIcon = styled.span`
+  font-size: 32px;
+  color: ${(props) => props.theme.colors.white};
+  line-height: 1;
 `;
 
 const NavList = styled.ul`
@@ -238,7 +291,7 @@ const MobileNavList = styled.ul`
   gap: ${(props) => props.theme.spaces.sm}px;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: ${(props) => props.theme.spaces.xl}px;
 `;
 
 const NavItem = styled.li`
@@ -251,7 +304,7 @@ const NavLink = styled(Link)`
   font-family: ${(props) => props.theme.fontFamilies.primary};
   font-size: ${(props) => props.theme.fontSizes.xxs}px;
   font-weight: 500;
-  padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
+  padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.xxs}px;
   border-radius: 4px;
   transition: all 0.3s ease;
   position: relative;
@@ -280,15 +333,39 @@ const NavLink = styled(Link)`
   }
 
   ${tablet} {
-    display: block;
-    width: 100%;
-    padding: ${(props) => props.theme.spaces.sm}px;
-    font-size: ${(props) => props.theme.fontSizes.xs}px;
+    display: none;
+  }
+`;
 
-    &[data-status="active"] {
-      &::after {
-        display: none;
-      }
+const MobileNavLink = styled(Link)`
+  display: block;
+  width: 100%;
+  color: ${(props) => props.theme.colors.white};
+  text-decoration: none;
+  font-family: ${(props) => props.theme.fontFamilies.primary};
+  font-size: ${(props) => props.theme.fontSizes.sm}px;
+  font-weight: 500;
+  padding: ${(props) => props.theme.spaces.xxs}px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &[data-status="active"] {
+    background-color: ${(props) => props.theme.colors.main};
+    color: ${(props) => props.theme.colors.white};
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background-color: ${(props) => props.theme.colors.main};
+      opacity: 0.9;
     }
   }
 `;
@@ -304,7 +381,8 @@ const Overlay = styled.div`
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
   }
 `;
 

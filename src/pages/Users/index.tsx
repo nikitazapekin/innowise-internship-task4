@@ -225,6 +225,7 @@ const ControlsPanel = styled.div`
   ${smallLaptop} {
     flex-direction: column;
     width: 100%;
+    padding: ${(props) => props.theme.spaces.sm}px 0px;
   }
 `;
 

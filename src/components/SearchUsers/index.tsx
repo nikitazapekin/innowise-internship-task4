@@ -84,6 +84,7 @@ const SearchForm = styled.form`
   }
   ${tablet} {
     flex-direction: column;
+    min-width: 100%;
   }
 `;
 
@@ -107,7 +108,8 @@ const SearchInput = styled.input`
     color: ${(props) => props.theme.colors.secondary};
   }
   ${tablet} {
-    min-width: 200px;
+    //  min-width: 200px;
+    width: 100%;
   }
 `;
 

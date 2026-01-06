@@ -210,6 +210,13 @@ const ConnectionControls = styled.div`
   gap: ${(props) => props.theme.spaces.sm}px;
   margin-bottom: ${(props) => props.theme.spaces.sm}px;
   flex-wrap: wrap;
+
+  ${tablet} {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const BaseButton = styled.button`
@@ -229,6 +236,10 @@ const BaseButton = styled.button`
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  ${tablet} {
+    width: 100%;
   }
 `;
 
@@ -290,6 +301,10 @@ const MessagesContainer = styled.div`
   overflow-y: auto;
   background: ${(props) => props.theme.colors.light}10;
   margin-bottom: ${(props) => props.theme.spaces.lg}px;
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const EmptyState = styled.div`

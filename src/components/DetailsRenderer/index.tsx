@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { themeUtils } from "styles/theme";
 
 interface FilmDetails {
   id: string;
@@ -322,6 +323,8 @@ const renderPlanetDetails = (planet: PlanetDetails) => (
     )}
   </>
 );
+const { tablet } = themeUtils.mediaQueries;
+
 const DetailsHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -329,6 +332,12 @@ const DetailsHeader = styled.div`
   margin-bottom: ${(props) => props.theme.spaces.lg}px;
   padding-bottom: ${(props) => props.theme.spaces.md}px;
   border-bottom: 1px solid ${(props) => props.theme.colors.light};
+
+  ${tablet} {
+    flex-direction: column;
+    row-gap: 20px;
+    width: 100%;
+  }
 `;
 
 const DetailsName = styled.h3`
@@ -351,6 +360,12 @@ const InfoGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: ${(props) => props.theme.spaces.md}px;
   margin-bottom: ${(props) => props.theme.spaces.lg}px;
+
+  ${tablet} {
+    grid-template-columns: repeat(1, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
 `;
 
 const InfoItem = styled.div`
@@ -380,6 +395,10 @@ const SectionTitle = styled.h4`
   font-size: ${(props) => props.theme.fontSizes.md}px;
   color: ${(props) => props.theme.colors.secondary};
   margin: 0 0 ${(props) => props.theme.spaces.sm}px 0;
+
+  ${tablet} {
+    text-align: center;
+  }
 `;
 
 const OpeningCrawl = styled.div`
@@ -395,6 +414,12 @@ const TagsList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${(props) => props.theme.spaces.sm}px;
+
+  ${tablet} {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 `;
 
 const Tag = styled.span`
@@ -403,12 +428,24 @@ const Tag = styled.span`
   padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
   border-radius: 4px;
   font-size: ${(props) => props.theme.fontSizes.xs}px;
+
+  ${tablet} {
+    text-align: center;
+    width: 100%;
+  }
 `;
 
 const ItemsList = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${(props) => props.theme.spaces.sm}px;
+
+  ${tablet} {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+  }
 `;
 
 const ListItem = styled.div`

@@ -499,6 +499,10 @@ const DetailsContainer = styled.div`
   padding: ${(props) => props.theme.spaces.md}px;
   border: 2px solid ${(props) => props.theme.colors.light};
   border-radius: 8px;
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const LoadingMessage = styled.div`

@@ -9,6 +9,7 @@ import SearchUsers from "components/SearchUsers";
 import UserCard from "components/UserCard";
 import { API_CONFIG, PER_PAGE_OPTIONS } from "constants/index";
 import { createApiClient } from "helpers/createApiClient";
+import { themeUtils } from "styles/theme";
 
 interface GitHubUser {
   id: number;
@@ -24,6 +25,7 @@ const apiClient = createApiClient();
 const Users = () => {
   const [perPage, setPerPage] = useState<number>(API_CONFIG.DEFAULT_PER_PAGE);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const fetchUsers = async ({
     pageParam = 0,
@@ -59,21 +61,13 @@ const Users = () => {
     };
   };
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-
-    refetch,
-    isPending,
-  } = useInfiniteQuery({
-    queryKey: ["githubUsers", perPage, searchQuery],
-    queryFn: fetchUsers,
-    getNextPageParam: (lastPage) => lastPage.nextPage,
-    initialPageParam: 0,
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status, refetch, isPending } =
+    useInfiniteQuery({
+      queryKey: ["githubUsers", perPage, searchQuery],
+      queryFn: fetchUsers,
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+      initialPageParam: 0,
+    });
 
   const allUsers = data?.pages.flatMap((page) => page.users) || [];
   const totalCount = data?.pages[0]?.total || 0;
@@ -89,7 +83,12 @@ const Users = () => {
 
   const handlePerPageChange = (value: number) => {
     setPerPage(value);
+    setIsDropdownOpen(false);
     refetch();
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   const loadMore = () => {
@@ -108,7 +107,8 @@ const Users = () => {
               handleChangeQuery={handleChangeQuery}
               handleSearch={handleSearch}
             />
-            <PerPageSelector>
+
+            <DesktopPerPageSelector>
               <PerPageLabel>Пользователей на странице:</PerPageLabel>
               <PerPageOptions>
                 {PER_PAGE_OPTIONS.map((option) => (
@@ -121,7 +121,28 @@ const Users = () => {
                   </PerPageOption>
                 ))}
               </PerPageOptions>
-            </PerPageSelector>
+            </DesktopPerPageSelector>
+
+            <TabletPerPageSelector>
+              <PerPageLabel>Пользователей на странице:</PerPageLabel>
+              <DropdownContainer>
+                <DropdownButton onClick={toggleDropdown}>
+                  <SelectedValue>{perPage}</SelectedValue>
+                  <DropdownArrow $isOpen={isDropdownOpen}>▼</DropdownArrow>
+                </DropdownButton>
+                <DropdownMenu $isOpen={isDropdownOpen}>
+                  {PER_PAGE_OPTIONS.map((option) => (
+                    <DropdownItem
+                      key={option}
+                      onClick={() => handlePerPageChange(option)}
+                      $isActive={perPage === option}
+                    >
+                      {option}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </DropdownContainer>
+            </TabletPerPageSelector>
           </ControlsPanel>
 
           {isPending && <Loading text="Загрузка пользователей..." />}
@@ -173,6 +194,8 @@ const Users = () => {
   );
 };
 
+const { tablet, smallLaptop } = themeUtils.mediaQueries;
+
 const ContentSection = styled.section`
   background-color: ${(props) => props.theme.colors.white};
 `;
@@ -181,6 +204,10 @@ const Container = styled.div`
   max-width: ${(props) => props.theme.containers.lg}px;
   margin: 0 auto;
   padding: 0 ${(props) => props.theme.spaces.md}px;
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const ControlsPanel = styled.div`
@@ -193,6 +220,13 @@ const ControlsPanel = styled.div`
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(10px);
+  gap: 20px;
+
+  ${smallLaptop} {
+    flex-direction: column;
+    width: 100%;
+    padding: ${(props) => props.theme.spaces.sm}px 0px;
+  }
 `;
 
 const BaseButton = styled.button`
@@ -215,10 +249,30 @@ const BaseButton = styled.button`
   }
 `;
 
-const PerPageSelector = styled.div`
+const DesktopPerPageSelector = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${(props) => props.theme.spaces.sm}px;
+
+  ${tablet} {
+    display: none;
+  }
+
+  ${smallLaptop} {
+    text-align: center;
+  }
+`;
+
+const TabletPerPageSelector = styled.div`
+  display: none;
+
+  ${tablet} {
+    display: flex;
+    flex-direction: column;
+    gap: ${(props) => props.theme.spaces.sm}px;
+    width: 100%;
+    align-items: center;
+  }
 `;
 
 const PerPageLabel = styled.span`
@@ -226,6 +280,15 @@ const PerPageLabel = styled.span`
   color: ${(props) => props.theme.colors.secondary};
   font-weight: 500;
   white-space: nowrap;
+
+  ${smallLaptop} {
+    text-align: center;
+  }
+
+  ${tablet} {
+    font-size: ${(props) => props.theme.fontSizes.xxs}px;
+    margin-bottom: ${(props) => props.theme.spaces.xxs}px;
+  }
 `;
 
 const PerPageOptions = styled.div`
@@ -257,11 +320,139 @@ const PerPageOption = styled.button<PerPageOptionProps>`
   }
 `;
 
+const DropdownContainer = styled.div`
+  position: relative;
+  width: 150px;
+
+  ${tablet} {
+    width: 100%;
+    max-width: 150px;
+  }
+`;
+
+const DropdownButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
+  border: 2px solid ${(props) => props.theme.colors.light};
+  border-radius: 8px;
+  background: ${(props) => props.theme.colors.white};
+  font-size: ${(props) => props.theme.fontSizes.xs}px;
+  font-family: ${(props) => props.theme.fontFamilies.primary};
+  color: ${(props) => props.theme.colors.main};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: ${(props) => props.theme.colors.main};
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px ${(props) => props.theme.colors.main}20;
+  }
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
+    font-size: ${(props) => props.theme.fontSizes.xxs}px;
+  }
+`;
+
+const SelectedValue = styled.span`
+  font-weight: 600;
+`;
+
+interface DropdownArrowProps {
+  $isOpen: boolean;
+}
+
+const DropdownArrow = styled.span<DropdownArrowProps>`
+  transition: transform 0.2s ease;
+  transform: rotate(${(props) => (props.$isOpen ? "180deg" : "0deg")});
+  font-size: 10px;
+  color: ${(props) => props.theme.colors.secondary};
+
+  ${tablet} {
+    font-size: 8px;
+  }
+`;
+
+interface DropdownMenuProps {
+  $isOpen: boolean;
+}
+
+const DropdownMenu = styled.div<DropdownMenuProps>`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: ${(props) => props.theme.colors.white};
+  border: 1px solid ${(props) => props.theme.colors.light};
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: ${(props) => (props.$isOpen ? "200px" : "0")};
+  overflow: hidden;
+  opacity: ${(props) => (props.$isOpen ? "1" : "0")};
+  transition: all 0.3s ease;
+  transform: translateY(${(props) => (props.$isOpen ? "0" : "-10px")});
+  visibility: ${(props) => (props.$isOpen ? "visible" : "hidden")};
+
+  ${tablet} {
+    max-height: ${(props) => (props.$isOpen ? "150px" : "0")};
+  }
+`;
+
+interface DropdownItemProps {
+  $isActive: boolean;
+}
+
+const DropdownItem = styled.button<DropdownItemProps>`
+  width: 100%;
+  padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
+  border: none;
+  background: ${(props) => (props.$isActive ? props.theme.colors.main : props.theme.colors.white)};
+  color: ${(props) => (props.$isActive ? props.theme.colors.white : props.theme.colors.main)};
+  font-size: ${(props) => props.theme.fontSizes.xs}px;
+  font-family: ${(props) => props.theme.fontFamilies.primary};
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${(props) =>
+      props.$isActive ? props.theme.colors.main : props.theme.colors.light};
+  }
+
+  &:first-of-type {
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+  }
+
+  &:last-of-type {
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+  }
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
+    font-size: ${(props) => props.theme.fontSizes.xxs}px;
+  }
+`;
+
 const ResultsInfo = styled.div`
   margin-bottom: ${(props) => props.theme.spaces.xl}px;
   padding: ${(props) => props.theme.spaces.md}px;
   border-radius: 12px;
   border: 1px solid ${(props) => props.theme.colors.black};
+
+  ${tablet} {
+    margin-bottom: ${(props) => props.theme.spaces.lg}px;
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const ResultsCount = styled.p`
@@ -270,18 +461,31 @@ const ResultsCount = styled.p`
   font-weight: 500;
   text-align: center;
   margin: 0;
+
+  ${tablet} {
+    font-size: ${(props) => props.theme.fontSizes.xxs}px;
+  }
 `;
 
 const UsersGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: ${(props) => props.theme.spaces.sm}px;
+
+  ${tablet} {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const LoadMoreWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: ${(props) => props.theme.spaces.xl}px 0;
+
+  ${tablet} {
+    margin: ${(props) => props.theme.spaces.lg}px 0;
+  }
 `;
 
 const LoadMoreButton = styled(BaseButton)`
@@ -294,6 +498,12 @@ const LoadMoreButton = styled(BaseButton)`
   padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.md}px;
   font-size: ${(props) => props.theme.fontSizes.sm}px;
   min-width: 200px;
+
+  ${tablet} {
+    min-width: 150px;
+    font-size: ${(props) => props.theme.fontSizes.xs}px;
+    padding: ${(props) => props.theme.spaces.xxs}px ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const EmptyState = styled.div`
@@ -303,6 +513,10 @@ const EmptyState = styled.div`
   justify-content: center;
   padding: ${(props) => props.theme.spaces.xxxl}px;
   text-align: center;
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.xl}px;
+  }
 `;
 
 const EmptyMessage = styled.p`
@@ -310,6 +524,10 @@ const EmptyMessage = styled.p`
   color: ${(props) => props.theme.colors.secondary};
   font-weight: 500;
   margin: 0;
+
+  ${tablet} {
+    font-size: ${(props) => props.theme.fontSizes.xs}px;
+  }
 `;
 
 const EndMessage = styled.div`
@@ -320,6 +538,12 @@ const EndMessage = styled.div`
   font-size: ${(props) => props.theme.fontSizes.xs}px;
   border-top: 1px solid ${(props) => props.theme.colors.light};
   margin-top: ${(props) => props.theme.spaces.xl}px;
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.lg}px;
+    font-size: ${(props) => props.theme.fontSizes.xxs}px;
+    margin-top: ${(props) => props.theme.spaces.lg}px;
+  }
 `;
 
 export default Users;

@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import Check from "assets/check.png";
+import DoubleCheck from "assets/double-check.png";
 
 interface WebSocketMessage {
   message: {
@@ -13,8 +15,17 @@ const Message = ({ message }: WebSocketMessage) => {
   return (
     <MessageItem key={message.id} type={message.type}>
       <MessageContent>
-        <MessageText>{message.text}</MessageText>
-        <MessageTime>{message.timestamp}</MessageTime>
+        <MessageText>
+          {message.text} ({message.id})
+        </MessageText>
+        <MessageFooter>
+          <MessageTime>{message.timestamp}</MessageTime>
+          {message.type === "sent" ? (
+            <StatusIcon src={Check} alt="Check" />
+          ) : (
+            <StatusIcon src={DoubleCheck} alt="Double check" />
+          )}
+        </MessageFooter>
       </MessageContent>
     </MessageItem>
   );
@@ -44,8 +55,19 @@ const MessageText = styled.div`
   word-break: break-word;
 `;
 
+const MessageFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: ${(props) => props.theme.spaces.xxs}px;
+`;
+
 const MessageTime = styled.div`
   font-size: ${(props) => props.theme.fontSizes.xxs}px;
   color: ${(props) => props.theme.colors.secondary}80;
-  text-align: right;
+`;
+
+const StatusIcon = styled.img`
+  width: 32px;
+  height: 32px;
 `;

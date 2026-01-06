@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import Layout from "components/Layout";
 import Message from "components/Message";
+import { themeUtils } from "styles/theme";
 
 interface WebSocketMessage {
   id: number;
@@ -14,7 +15,7 @@ interface WebSocketMessage {
 const Chat = () => {
   const [messages, setMessages] = useState<WebSocketMessage[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
-  const [connectionStatus, setConnectionStatus] = useState<string>("Disconncred");
+  const [connectionStatus, setConnectionStatus] = useState<string>("Disconnected");
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const socketRef = useRef<WebSocket | null>(null);
   const messageIdRef = useRef<number>(1);
@@ -39,15 +40,15 @@ const Chat = () => {
         return;
       }
 
-      setConnectionStatus("Подключаемся...");
+      setConnectionStatus("Connecting...");
       setIsConnected(false);
 
       const socket = new WebSocket("wss://ws.ifelse.io");
 
       socket.onopen = () => {
-        setConnectionStatus("Подключено");
+        setConnectionStatus("Connected");
         setIsConnected(true);
-        addMessage("Cannot connect to server", "received");
+        addMessage("Connected to server", "received");
       };
 
       socket.onmessage = (event) => {
@@ -57,11 +58,11 @@ const Chat = () => {
       socket.onerror = () => {
         setConnectionStatus("Connection error");
         setIsConnected(false);
-        addMessage("An error occured", "received");
+        addMessage("An error occurred", "received");
       };
 
       socket.onclose = (event) => {
-        setConnectionStatus("Disconected");
+        setConnectionStatus("Disconnected");
         setIsConnected(false);
         addMessage(`Connection closed. Code: ${event.code}`, "received");
       };
@@ -157,6 +158,9 @@ const Chat = () => {
     </Layout>
   );
 };
+
+const { tablet } = themeUtils.mediaQueries;
+
 const ChatContainer = styled.div`
   max-width: ${(props) => props.theme.containers.lg}px;
   width: 100%;
@@ -166,6 +170,10 @@ const ChatContainer = styled.div`
   background: ${(props) => props.theme.colors.white};
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const ChatHeader = styled.div`
@@ -175,6 +183,10 @@ const ChatHeader = styled.div`
   margin-bottom: ${(props) => props.theme.spaces.sm}px;
   padding-bottom: ${(props) => props.theme.spaces.md}px;
   border-bottom: 2px solid ${(props) => props.theme.colors.light};
+
+  ${tablet} {
+    flex-direction: column;
+  }
 `;
 
 const ChatTitle = styled.h2`
@@ -198,6 +210,13 @@ const ConnectionControls = styled.div`
   gap: ${(props) => props.theme.spaces.sm}px;
   margin-bottom: ${(props) => props.theme.spaces.sm}px;
   flex-wrap: wrap;
+
+  ${tablet} {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const BaseButton = styled.button`
@@ -217,6 +236,10 @@ const BaseButton = styled.button`
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  ${tablet} {
+    width: 100%;
   }
 `;
 
@@ -239,6 +262,10 @@ const MessageInputSection = styled.div`
   display: flex;
   gap: ${(props) => props.theme.spaces.sm}px;
   margin-bottom: ${(props) => props.theme.spaces.sm}px;
+
+  ${tablet} {
+    flex-direction: column;
+  }
 `;
 
 const MessageInput = styled.input`
@@ -274,6 +301,10 @@ const MessagesContainer = styled.div`
   overflow-y: auto;
   background: ${(props) => props.theme.colors.light}10;
   margin-bottom: ${(props) => props.theme.spaces.lg}px;
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const EmptyState = styled.div`

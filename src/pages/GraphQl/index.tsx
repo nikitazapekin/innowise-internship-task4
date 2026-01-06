@@ -14,6 +14,7 @@ import {
   GET_PERSON_BY_ID,
   GET_PLANET_BY_ID,
 } from "queries/queries";
+import { themeUtils } from "styles/theme";
 
 type DataType = "films" | "people" | "planets";
 
@@ -356,6 +357,7 @@ function GraphQl() {
   );
 }
 
+const { tablet } = themeUtils.mediaQueries;
 const GraphQLContainer = styled.div`
   max-width: ${(props) => props.theme.containers.lg}px;
   width: 100%;
@@ -365,6 +367,10 @@ const GraphQLContainer = styled.div`
   background: ${(props) => props.theme.colors.white};
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const GraphQLHeader = styled.div`
@@ -449,6 +455,11 @@ const SearchSection = styled.div`
 const SearchForm = styled.form`
   display: flex;
   gap: ${(props) => props.theme.spaces.sm}px;
+
+  ${tablet} {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -488,6 +499,10 @@ const DetailsContainer = styled.div`
   padding: ${(props) => props.theme.spaces.md}px;
   border: 2px solid ${(props) => props.theme.colors.light};
   border-radius: 8px;
+
+  ${tablet} {
+    padding: ${(props) => props.theme.spaces.sm}px;
+  }
 `;
 
 const LoadingMessage = styled.div`

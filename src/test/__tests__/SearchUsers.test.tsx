@@ -85,7 +85,7 @@ describe("SearchUsers", () => {
         searchQuery=""
       />
     );
-    const input = screen.getByPlaceholderText("Поиск пользователей GitHub...");
+    const input = screen.getByPlaceholderText("Поиск...");
 
     expect(input).toBeInTheDocument();
 
@@ -103,7 +103,7 @@ describe("SearchUsers", () => {
       />
     );
 
-    const input = screen.getByPlaceholderText("Поиск пользователей GitHub...");
+    const input = screen.getByPlaceholderText("Поиск...");
 
     fireEvent.change(input, { target: { value: "test" } });
 
@@ -125,7 +125,7 @@ describe("SearchUsers", () => {
       />
     );
 
-    const input = screen.getByPlaceholderText("Поиск пользователей GitHub...");
+    const input = screen.getByPlaceholderText("Поиск...");
 
     fireEvent.change(input, { target: { value: "react" } });
 
@@ -159,7 +159,7 @@ describe("SearchUsers", () => {
       />
     );
 
-    const input = screen.getByPlaceholderText("Поиск пользователей GitHub...");
+    const input = screen.getByPlaceholderText("Поиск...");
 
     fireEvent.change(input, { target: { value: "angular" } });
     vi.advanceTimersByTime(300);
@@ -198,7 +198,7 @@ describe("SearchUsers", () => {
       />
     );
 
-    const input = screen.getByPlaceholderText("Поиск пользователей GitHub...");
+    const input = screen.getByPlaceholderText("Поиск...");
     const searchButton = screen.getByText("Поиск");
 
     fireEvent.change(input, { target: { value: "javascript" } });

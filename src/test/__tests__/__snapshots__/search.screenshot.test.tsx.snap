@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SearchUsers Component Screenshot Tests > Base States > рендерит форму 1`] = `
+<div>
+  <form
+    class="css-pz91m5"
+  >
+    <input
+      class="css-ggw85g"
+      placeholder="Поиск..."
+      type="text"
+      value=""
+    />
+    <button
+      class="css-3bkdlb"
+      type="submit"
+    >
+      Поиск
+    </button>
+  </form>
+</div>
+`;

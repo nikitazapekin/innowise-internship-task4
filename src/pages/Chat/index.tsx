@@ -15,7 +15,7 @@ interface WebSocketMessage {
 const Chat = () => {
   const [messages, setMessages] = useState<WebSocketMessage[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
-  const [connectionStatus, setConnectionStatus] = useState<string>("Disconncred");
+  const [connectionStatus, setConnectionStatus] = useState<string>("Disconnected");
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const socketRef = useRef<WebSocket | null>(null);
   const messageIdRef = useRef<number>(1);
@@ -48,7 +48,7 @@ const Chat = () => {
       socket.onopen = () => {
         setConnectionStatus("Connected");
         setIsConnected(true);
-        addMessage("Cannot connect to server", "received");
+        addMessage("Connected to server", "received");
       };
 
       socket.onmessage = (event) => {
@@ -58,11 +58,11 @@ const Chat = () => {
       socket.onerror = () => {
         setConnectionStatus("Connection error");
         setIsConnected(false);
-        addMessage("An error occured", "received");
+        addMessage("An error occurred", "received");
       };
 
       socket.onclose = (event) => {
-        setConnectionStatus("Disconected");
+        setConnectionStatus("Disconnected");
         setIsConnected(false);
         addMessage(`Connection closed. Code: ${event.code}`, "received");
       };
@@ -158,6 +158,7 @@ const Chat = () => {
     </Layout>
   );
 };
+
 const { tablet } = themeUtils.mediaQueries;
 
 const ChatContainer = styled.div`

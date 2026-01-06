@@ -28,12 +28,7 @@ const SearchUsers = ({ handleChangeQuery, handleSearch }: SearchUsersProps) => {
 
   return (
     <SearchForm onSubmit={handleSearch}>
-      <SearchInput
-        type="text"
-        placeholder="Поиск пользователей GitHub..."
-        value={query}
-        onChange={handleInputChange}
-      />
+      <SearchInput type="text" placeholder="Поиск..." value={query} onChange={handleInputChange} />
 
       <SearchButton type="submit">Поиск</SearchButton>
     </SearchForm>
